@@ -1,4 +1,4 @@
-module quote-of-the-day/database
+module quote-of-the-day/connectdb
 
 go 1.18
 

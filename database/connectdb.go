@@ -1,4 +1,4 @@
-package main
+package connectdb
 
 import (
 	"database/sql"
@@ -9,8 +9,6 @@ import (
 	"github.com/go-sql-driver/mysql"
 )
 
-var db *sql.DB
-
 type Quote struct {
 	QuoteID   int64
 	AuthorID  int64
@@ -18,7 +16,9 @@ type Quote struct {
 	Last_Used string
 }
 
-func main() {
+func Connect() *sql.DB {
+	var db *sql.DB
+
 	// Capture connection properties.
 	cfg := mysql.Config{
 		User:   os.Getenv("DBUSER"),
@@ -27,6 +27,7 @@ func main() {
 		Addr:   "127.0.0.1:3306",
 		DBName: "db",
 	}
+
 	// Get a database handle.
 	var err error
 	db, err = sql.Open("mysql", cfg.FormatDSN())
@@ -39,15 +40,10 @@ func main() {
 		log.Fatal(pingErr)
 	}
 	fmt.Println("Connected!")
-
-	quotes, err := getQuotes()
-	if err != nil {
-		log.Fatal(err)
-	}
-	fmt.Printf("Quotes: %v\n", quotes)
+	return db
 }
 
-func getQuotes() ([]Quote, error) {
+func GetQuotes(db *sql.DB) ([]Quote, error) {
 	var quotes []Quote
 
 	rows, err := db.Query("SELECT * FROM quotes")
@@ -70,4 +66,16 @@ func getQuotes() ([]Quote, error) {
 	}
 
 	return quotes, nil
+}
+
+func AddQuote(db *sql.DB, quote Quote) (int64, error) {
+	result, err := db.Exec("INSERT INTO quotes (quoteID, authorID, quote, last_used) VALUES (?,?,?,NOW())", &quote.QuoteID, &quote.AuthorID, &quote.Quote)
+	if err != nil {
+		return 0, fmt.Errorf("addQuote: %v", err)
+	}
+	id, err := result.LastInsertId()
+	if err != nil {
+		return 0, fmt.Errorf("addQuote: %v", err)
+	}
+	return id, nil
 }
