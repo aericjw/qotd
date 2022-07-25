@@ -1,13 +1,42 @@
 {
-  "name": "my-app",
-  "version": "0.0.0",
+  "name": "vanilla",
+  "author": "Lea<l>",
+  "private": true,
   "scripts": {
-    "ng": "npx ng",
-    "serve": "npx ng serve --poll=2000 --host=0.0.0.0",
-    "build": "npx ng build --single-bundle true --output-hashing none --prod --bundle-styles false",
-    "test": "npx ng test",
-    "lint": "npx ng lint",
-    "e2e": "npx ng e2e"
+    "serve": "webpack-dev-server",
+    "build": "npx webpack"
   },
-  "private": true
+  "dependencies": {
+    "core-js": "^3.6.4",
+    "regenerator-runtime": "^0.13.3",
+    "@wailsapp/runtime": "^1.0.10"
+  },
+  "devDependencies": {
+    "babel-eslint": "^10.1.0",
+    "copy-webpack-plugin": "^6.0.2",
+    "eslint": "^6.8.0",
+    "eventsource-polyfill": "^0.9.6",
+    "webpack": "^4.43.0",
+    "webpack-cli": "^3.3.11",
+    "webpack-dev-server": "^3.11.0",
+    "webpack-hot-middleware": "^2.25.0"
+  },
+  "eslintConfig": {
+    "root": true,
+    "env": {
+      "node": true
+    },
+    "extends": [
+      "eslint:recommended"
+    ],
+    "rules": {},
+    "parserOptions": {
+      "parser": "babel-eslint"
+    }
+  },
+  "browserslist": [
+    "> 1%",
+    "last 2 versions",
+    "not ie <= 8"
+  ]
 }
