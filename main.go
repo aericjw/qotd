@@ -1,13 +1,14 @@
 package main
 
 import (
-	_ "embed"
+	"embed"
 	"log"
 	"math/rand"
 	"quote-of-the-day/database"
 	"time"
 
-	"github.com/wailsapp/wails"
+	"github.com/wailsapp/wails/v2"
+	"github.com/wailsapp/wails/v2/pkg/options"
 )
 
 func getRandomNumber(length int) int {
@@ -65,15 +66,23 @@ func DisplayQuote() database.Quote {
 }
 
 func main() {
+	var assets embed.FS
 
-	app := wails.CreateApp(&wails.AppConfig{
-		Width:  1024,
-		Height: 768,
-		Title:  "Quote of the Day",
-		JS:     "./frontend/build/index.js",
-		CSS:    "./frontend/build/index.css",
+	app := NewApp()
+
+	err := wails.Run(&options.App{
+		Title:            "Quote of the Day",
+		Width:            800,
+		Height:           480,
+		Assets:           assets,
+		BackgroundColour: &options.RGBA{R: 27, G: 38, B: 54, A: 1},
+		OnStartup:        app.startup,
+		Bind: []interface{}{
+			app,
+		},
 	})
 
-	app.Bind(DisplayQuote)
-	app.Run()
+	if err != nil {
+		log.Fatal(err)
+	}
 }
