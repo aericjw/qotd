@@ -1,26 +1,39 @@
 import {useState} from 'react';
 import logo from './assets/images/logo-universal.png';
 import './App.css';
-import {Greet} from "../wailsjs/go/main/App";
+import {DisplayQuote} from "../wailsjs/go/main/App";
 
 function App() {
-    const [resultText, setResultText] = useState("Please enter your name below 👇");
-    const [name, setName] = useState('');
-    const updateName = (e: any) => setName(e.target.value);
-    const updateResultText = (result: string) => setResultText(result);
+    const [quoteText, setQuoteText] = useState('');
+    const [author, setAuthor] = useState('');
+    const updateQuote = (text: any) => setQuoteText(text);
+    const updateAuthor = (text: any) => setAuthor(text);
 
-    function greet() {
-        Greet(name).then(updateResultText);
+    function displayQuote() {
+        DisplayQuote().then( response => {
+            var quote : any = response.quote;
+            var author : any = response.author;
+            updateQuote(quote);
+            updateAuthor(author);
+        });
     }
 
     return (
         <div id="App">
-            <img src={logo} id="logo" alt="logo"/>
-            <div id="result" className="result">{resultText}</div>
-            <div id="input" className="input-box">
-                <input id="name" className="input" onChange={updateName} autoComplete="off" name="input" type="text"/>
-                <button className="btn" onClick={greet}>Greet</button>
-            </div>
+            <div className="container-fluid primary">
+				<div className="row pt-3 pb-3">
+					<div className="col">
+						<h1 id="quote" className="text-responsive">{quoteText}</h1>
+					</div>
+				</div>
+				<div className="row pt-3 pb-3">
+					<div className="col">
+					</div>
+					<div className="col text-end">
+						<h1 id="author" className="text-responsive">{author}</h1>
+					</div>
+				</div>
+			</div>
         </div>
     )
 }
