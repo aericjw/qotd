@@ -1,0 +1,12 @@
+{
+    "name": "Quote of the Day",
+    "outputfilename": "quote-of-the-day",
+    "frontend:install": "npm install",
+    "frontend:build": "npm run build",
+    "frontend:dev:watcher": "npm run serve",
+    "frontend:dev:serverUrl": "auto",
+    "author": {
+      "name": "aericjw",
+      "email": "aericwalls26@gmail.com"
+    }
+  }
