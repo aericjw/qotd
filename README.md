@@ -1,15 +1,16 @@
-# Quote of the Day
+# README
 
-A small project to display custom quotes every 24 hours.
+## About
 
-## Go
+This is the official Wails Svelte template.
 
-Used as back-end, connects to database of quotes and finds least recently used quote to display
+## Live Development
 
-## HTML & CSS
+To run in live development mode, run `wails dev` in the project directory. This will run a Vite development
+server that will provide very fast hot reload of your frontend changes. If you want to develop in a browser
+and have access to your Go methods, there is also a dev server that runs on http://localhost:34115. Connect
+to this in your browser, and you can call your Go code from devtools.
 
-Used as front-end, displays quote and author
+## Building
 
-## Wails
-
-Wails will build the application executable using Go and Web-Dev files
+To build a redistributable, production mode package, use `wails build`.

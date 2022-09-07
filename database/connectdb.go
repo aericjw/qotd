@@ -11,7 +11,7 @@ import (
 
 type Quote struct {
 	QuoteID   int64
-	AuthorID  int64
+	Author    string
 	Quote     string
 	Last_Used string
 }
@@ -55,7 +55,7 @@ func GetQuotes(db *sql.DB) ([]Quote, error) {
 
 	for rows.Next() {
 		var quote Quote
-		if err := rows.Scan(&quote.QuoteID, &quote.AuthorID, &quote.Quote, &quote.Last_Used); err != nil {
+		if err := rows.Scan(&quote.QuoteID, &quote.Author, &quote.Quote, &quote.Last_Used); err != nil {
 			return nil, fmt.Errorf("getQuotes: %v", err)
 		}
 		quotes = append(quotes, quote)
@@ -69,7 +69,7 @@ func GetQuotes(db *sql.DB) ([]Quote, error) {
 }
 
 func AddQuote(db *sql.DB, quote Quote) (int64, error) {
-	result, err := db.Exec("INSERT INTO quotes (quoteID, authorID, quote, last_used) VALUES (?,?,?,NOW())", &quote.QuoteID, &quote.AuthorID, &quote.Quote)
+	result, err := db.Exec("INSERT INTO quotes (author, quote, last_used) VALUES (?,?,NOW())", &quote.Author, &quote.Quote)
 	if err != nil {
 		return 0, fmt.Errorf("addQuote: %v", err)
 	}
