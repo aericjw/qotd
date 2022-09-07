@@ -1,5 +1,8 @@
 frontend/node_modules
 frontend/dist/
+frontend/postcss.config.cjs
+frontend/svelte.config.js
+frontend/tailwin.config.cjs
 frontend/*.json
 frontend/*.md5
 frontend/vite.config.js
