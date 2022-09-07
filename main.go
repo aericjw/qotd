@@ -1,31 +1,16 @@
 package main
 
 import (
-	"embed"
-	"log"
+	"strconv"
 
-	"github.com/wailsapp/wails/v2"
-	"github.com/wailsapp/wails/v2/pkg/options"
+	"quote-of-the-day/database"
+	"quote-of-the-day/frontend"
 )
 
 func main() {
-	var assets embed.FS
+	db := database.Connect()
+	quotes, _ := database.GetQuotes(db)
 
-	app := NewApp()
+	frontend.CreateGUI(quotes[0].Quote, strconv.Itoa(int(quotes[0].AuthorID)))
 
-	err := wails.Run(&options.App{
-		Title:            "Quote of the Day",
-		Width:            800,
-		Height:           480,
-		Assets:           assets,
-		BackgroundColour: &options.RGBA{R: 27, G: 38, B: 54, A: 1},
-		OnStartup:        app.startup,
-		Bind: []interface{}{
-			app,
-		},
-	})
-
-	if err != nil {
-		log.Fatal(err)
-	}
 }
